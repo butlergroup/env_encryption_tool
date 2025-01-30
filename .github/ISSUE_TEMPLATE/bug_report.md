@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. What happened?
 
 **To Reproduce**
-Steps to reproduce the behavior:
+Steps to reproduce the behavior (as minimally and concisely as possible):
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -23,16 +23,21 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Environment (please complete the following information):**
+ - Architecture: [e.g. amd64, arm64, etc.]
+ - OS info: [e.g. Ubuntu/RHEL, Windows, MacOS]
+```console
+# On Linux:
+$ cat /etc/os-release
+# paste output here
+$ uname -a
+# paste output here
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+# On Windows:
+C:\> wmic os get Caption, Version, BuildNumber, OSArchitecture
+# paste output here
+```
+ - Browser [e.g. chrome, Firefox, safari]
 
 **Additional context**
 Add any other context about the problem here.
