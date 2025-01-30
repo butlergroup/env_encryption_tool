@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-The following versions of Stord are supported under a Service Level Agreement (SLA). Any version indicated with a red X will receive support on a best-effort and case-by-case basis:
+The following versions of env_encryption_tool are supported under a Service Level Agreement (SLA). Any version indicated with a red X will receive support on a best-effort and case-by-case basis:
 
 | Version | Supported          |
 | ------- | ------------------ |
