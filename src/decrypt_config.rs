@@ -5,7 +5,9 @@ use base64::Engine; // For base64 decoding
 use std::env;
 use std::fs;
 use log::{info, error, debug};
+use std::io;
 
+// Decrypt .env.enc file - uses env_logger to report output
 pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
     info!("Starting decryption process");
 
@@ -19,8 +21,15 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
     // Define file paths
     let encrypted_file_path = ".env.enc";
 
-    // Read the encrypted file
-    let file_content = fs::read_to_string(encrypted_file_path)?; // Read as a string
+    // Read the encrypted file (check if not found or other I/O error)
+    let file_content = match fs::read_to_string(encrypted_file_path) {
+        Ok(content) => content,
+        Err(e) if e.kind() == io::ErrorKind::NotFound => {
+            // Return a custom error if file not found
+            return Err(format!("Encrypted file '{}' not found: {}", encrypted_file_path, e).into());
+        }
+        Err(e) => return Err(e.into()),
+    };
     debug!("Encrypted file content loaded");
 
     // Split the content into nonce and encrypted data parts
@@ -86,3 +95,4 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
