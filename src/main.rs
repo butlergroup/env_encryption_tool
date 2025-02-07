@@ -9,7 +9,7 @@ use base64::Engine; // For Engine::encode method
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Retrieve the encryption key from the environment variable
-    let secret_key = ""; 
+    let secret_key = "@d72jb5dh8l2%x&2*GK1&3HDL2l2)2#$"; 
 
     // Ensure the key length is 32 bytes for AES-256
     if secret_key.len() != 32 {

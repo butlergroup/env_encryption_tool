@@ -30,7 +30,7 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
         }
         Err(e) => return Err(e.into()),
     };
-    debug!("Encrypted file content loaded");
+    info!("Encrypted file content loaded");
 
     // Split the content into nonce and encrypted data parts
     let parts: Vec<&str> = file_content.split(':').collect();
