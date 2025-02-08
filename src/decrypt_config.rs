@@ -4,7 +4,7 @@ use base64::engine::general_purpose::STANDARD;
 use base64::Engine; // For base64 decoding
 use std::env;
 use std::fs;
-use log::{info, error, debug};
+use log::{info, error};
 use std::io;
 
 // Decrypt .env.enc file - uses env_logger to report output
