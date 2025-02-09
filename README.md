@@ -34,11 +34,13 @@ env_encryption_tool is licensed under the AGPL-3.0 license, making it free to us
 
 Special thanks to contributors, open-source enthusiasts, and supporters of env_encryption_tool's vision.
 
-## Ethical Use Policy
+## Terms of Service
 
-This software is designed for legitimate security and data protection purposes only. Any use for malicious intent, including but not limited to ransomware deployment, unauthorized data access, or cyberattacks, is strictly prohibited.
+Please read our [Terms of Service](https://github.com/butlergroup/env_encryption_tool/blob/main/terms-of-service.md) before using our software. Violators of these Terms are not supported by the community or contributors.
 
-Violators of this policy are not supported by the community or contributors.
+## Privacy Policy
+
+Please also read our [Privacy Policy](https://github.com/butlergroup/env_encryption_tool/blob/main/privacy-policy.md) to understand how we handle your personal information. 
 
 ## Contact
 
