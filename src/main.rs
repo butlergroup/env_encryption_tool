@@ -24,9 +24,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Step 1: Input encryption key and generate salt
     let salt = generate_salt();
     let key = ""; 
-    // ^ Input secure encryption key of your chosen length
-    // The application is configured to use only the first 32 bytes for the AES-256 key, 
-    // but the additional entropy from the longer key enhances overall security.
+    // ^ Input 32-character encryption key
 
     // Step 2: Derive new key using Argon2 with salt
     let argon2 = Argon2::default();
@@ -57,8 +55,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Step 3: Encryption (AES-GCM using Argon2-Derived Key)
     let plaintext = fs::read_to_string(".env")?;
-    let aes_key = Aes256Gcm::new_from_slice(&derived_key[..32])  // Use the first 32 bytes for AES-256 key
-        .expect("AES key creation failed");
+    let aes_key = Aes256Gcm::new_from_slice(&derived_key).expect("AES key creation failed");
     let mut nonce_bytes = [0u8; 12];
     let _ = OsRng.try_fill_bytes(&mut nonce_bytes);
     let nonce = Nonce::from_slice(&nonce_bytes);

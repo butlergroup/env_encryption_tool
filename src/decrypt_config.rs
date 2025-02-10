@@ -71,8 +71,7 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
 
     // Step 5: Decryption (AES-GCM)
     info!("Starting AES-GCM decryption...");
-    let aes_key = Aes256Gcm::new_from_slice(&derived_key[..32])  // Use the first 32 bytes for AES-256 key
-        .expect("AES key creation failed");
+    let aes_key = Aes256Gcm::new_from_slice(&derived_key).expect("AES key creation failed");
     let nonce = Nonce::from_slice(&nonce_bytes);
     let decrypted_data = aes_key.decrypt(nonce, encrypted_data.as_ref())
         .map_err(|e| format!("AES-GCM decryption failed: {}", e))?;
