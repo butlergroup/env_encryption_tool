@@ -14,7 +14,7 @@ The headings used in this agreement are included for convenience only and will n
 
 ## Section 2 – Accuracy, Completeness, and Timeliness of Information
 
-We are not responsible if information made available in this posting is not accurate, complete or current. The material on this site is provided for general information only and should not be relied upon or used as the sole basis for making decisions without consulting primary, more accurate, more complete or more timely sources of information. Any reliance on the material on this site is at your own risk.
+The material in this appication is provided for general information only and should not be relied upon or used as the sole basis for making decisions without consulting primary, more accurate, more complete or more timely sources of information. Any reliance on the material in this application is at the user's sole choice.
 
 ## Section 3 – Modifications To The Service
 
