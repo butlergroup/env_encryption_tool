@@ -1,13 +1,17 @@
 use env;
 use std::fs;
 use std::io::Read;
+use std::error::Error;
+use std::collections::HashMap;
+use std::sync::Mutex;
+use once_cell::sync::Lazy;
 use log::{info, error};
 use argon2::{Argon2, PasswordHasher, Params, password_hash::SaltString};
 use aes_gcm::{Aes256Gcm, KeyInit, Nonce};
 use aes_gcm::aead::Aead;
 
 // Function to read data with length prefix
-fn read_with_length(file: &mut &[u8]) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+fn read_with_length(file: &mut &[u8]) -> Result<Vec<u8>, Box<dyn Error>> {
     let mut len_buf = [0u8; 4];
     file.read_exact(&mut len_buf)?;
     let len = u32::from_be_bytes(len_buf) as usize;
@@ -17,8 +21,23 @@ fn read_with_length(file: &mut &[u8]) -> Result<Vec<u8>, Box<dyn std::error::Err
     Ok(buffer)
 }
 
+// Instantiate a global HashMap to hold environment variables
+pub static ENV_VARS: Lazy<Mutex<HashMap<String, String>>> = Lazy::new(|| Mutex::new(HashMap::new()));
+
+// Store an environment variable in memory
+fn set_env_var(key: &str, value: &str) {
+    let mut env_vars = ENV_VARS.lock().unwrap();  // ✅ Lock synchronously
+    env_vars.insert(key.to_string(), value.to_string());  // ✅ Insert into HashMap
+}
+
+// Retrieve an environment variable from memory
+pub fn get_env_var(key: &str) -> Option<String> {
+    let env_vars = ENV_VARS.lock().unwrap();  // ✅ Lock synchronously
+    env_vars.get(key).cloned()  // ✅ Get value from HashMap
+}
+
 // Decrypt .env.enc file
-pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
+pub async fn decrypt_config() -> Result<(), Box<dyn Error>> {
     info!("Starting decryption process");
 
     // Step 1: Retrieve the decryption key from the environment variable
@@ -92,7 +111,7 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
 
             if !key.is_empty() && !value.is_empty() {
                 info!("Setting environment variable: {} = {}", key, value);
-                let _ = env::set_var(key, value);
+                set_env_var(key, &value);  // ✅ Store in global HashMap
             } else {
                 error!("Invalid environment variable entry: {} = {}", key, value);
             }

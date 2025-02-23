@@ -146,12 +146,13 @@ dependencies = [
 
 [[package]]
 name = "env_encryption_tool"
-version = "0.9.3"
+version = "0.9.4"
 dependencies = [
  "aes-gcm",
  "argon2",
  "env",
  "log",
+ "once_cell",
  "rand_core 0.9.2",
 ]
 
@@ -227,6 +228,12 @@ checksum = "5c7398b9c8b70908f6371f47ed36737907c87c52af34c268fed0bf0ceb92ead9"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "once_cell"
+version = "1.20.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
 
 [[package]]
 name = "opaque-debug"

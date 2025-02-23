@@ -1,6 +1,6 @@
 [package]
 name = "env_encryption_tool"
-version = "0.9.3"
+version = "0.9.4"
 edition = "2024"
 
 [dependencies]
@@ -9,3 +9,4 @@ argon2 = "0.5.3"                                         # Key derivation with r
 log = "0.4.26"                                           # A lightweight logging facade for Rust 
 aes-gcm = "0.10.3"                                       # AES-GCM (Galois/Counter Mode) Authenticated Encryption with Associated Data (AEAD) Cipher
 env = "1.0.1"                                            # Provides a safe interface for std::env::{set_var, remove_var}.
+once_cell = "1.20.3"                                     # Single assignment cells and lazy values.

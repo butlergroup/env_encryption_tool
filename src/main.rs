@@ -4,6 +4,7 @@ use argon2::{Argon2, PasswordHasher, Params, password_hash::SaltString};
 use rand_core::{OsRng, TryRngCore};
 use std::fs::{self, File};
 use std::io::Write;
+use std::error::Error;
 use aes_gcm::{Aes256Gcm, KeyInit, Nonce};
 use aes_gcm::aead::Aead;
 
@@ -20,7 +21,7 @@ fn generate_salt() -> Vec<u8> {
 }
 
 // 🔐 Encrypt .env file
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     // Step 1: Input encryption key and generate salt
     let salt = generate_salt();
     let key = ""; 
