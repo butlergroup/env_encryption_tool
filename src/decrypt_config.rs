@@ -1,4 +1,4 @@
-use std::env;
+use env;
 use std::fs;
 use std::io::Read;
 use log::{info, error};
@@ -92,7 +92,7 @@ pub fn decrypt_config() -> Result<(), Box<dyn std::error::Error>> {
 
             if !key.is_empty() && !value.is_empty() {
                 info!("Setting environment variable: {} = {}", key, value);
-                env::set_var(key, value);
+                let _ = env::set_var(key, value);
             } else {
                 error!("Invalid environment variable entry: {} = {}", key, value);
             }
