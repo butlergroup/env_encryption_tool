@@ -64,7 +64,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .map_err(|e| format!("Encryption process failure: {}", e))?;
 
     // Step 4: Store Salt, Nonce, and Encrypted Data
-    let mut output_file = File::create(".env.enc")?;
+    let mut output_file = File::create("env.enc")?;
 
     println!("Writing Salt ({} bytes): {:?}", salt.len(), &salt);
     write_with_length(&mut output_file, &salt)?;
