@@ -146,7 +146,7 @@ dependencies = [
 
 [[package]]
 name = "env_encryption_tool"
-version = "0.9.5"
+version = "0.9.6"
 dependencies = [
  "aes-gcm",
  "argon2",
