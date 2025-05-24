@@ -46,7 +46,7 @@ pub async fn decrypt_config() -> Result<(), Box<dyn Error>> {
     info!("Decryption key loaded");
 
     // Step 2: Read the encrypted file
-    let encrypted_file_path = ".env.enc";
+    let encrypted_file_path = "env.enc";
     let file_content = fs::read(encrypted_file_path)?;  // Reading as binary
     let mut cursor = &file_content[..];
     info!("Encrypted file content loaded");
