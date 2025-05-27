@@ -75,7 +75,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Writing Encrypted Data ({} bytes)", encrypted_data.len());
     write_with_length(&mut output_file, &encrypted_data)?;
 
-    println!("File encrypted successfully and saved to '.env.enc'");
+    println!("File encrypted successfully and saved to 'env.enc'");
     Ok(())
 }
 

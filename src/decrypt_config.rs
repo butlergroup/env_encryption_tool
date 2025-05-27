@@ -36,8 +36,8 @@ pub fn get_env_var(key: &str) -> Option<String> {
     env_vars.get(key).cloned()  // ✅ Get value from HashMap
 }
 
-// Decrypt .env.enc file
-pub async fn decrypt_config() -> Result<(), Box<dyn Error>> {
+// Decrypt env.enc file
+pub async fn decrypt_env_vars() -> Result<(), Box<dyn Error>> {
     info!("Starting decryption process");
 
     // Step 1: Retrieve the decryption key from the environment variable
