@@ -1,5 +1,6 @@
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
 [![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![dependency status](https://deps.rs/repo/github/butlergroup/env_encryption_tool/status.svg)](https://deps.rs/repo/github/butlergroup/env_encryption_tool)
 [![Feature Requests](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/feature-request.svg)](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
 [![Bugs](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/bug.svg)](https://github.com/butlergroup/env_encryption_tool/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
 
