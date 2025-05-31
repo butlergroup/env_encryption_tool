@@ -1,6 +1,7 @@
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
 [![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
 [![dependency status](https://deps.rs/repo/github/butlergroup/env_encryption_tool/status.svg)](https://deps.rs/repo/github/butlergroup/env_encryption_tool)
+[![rust-clippy analyze](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10676/badge)](https://www.bestpractices.dev/projects/10676)
 [![Scorecard supply-chain security](https://github.com/butlergroup/env_encryption_tool/actions/workflows/scorecard.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/scorecard.yml)
 [![Coverage Status](https://coveralls.io/repos/github/butlergroup/env_encryption_tool/badge.svg?branch=main)](https://coveralls.io/github/butlergroup/env_encryption_tool?branch=main)
