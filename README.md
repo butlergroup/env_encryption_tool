@@ -1,7 +1,7 @@
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
-[![Rust/Cargo build](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
-![feature-request issues](https://img.shields.io/github/issues-search/butlergroup/env_encryption_tool?query=is%3Aissue%20state%3Aopen%20label%3Aenhancement)
-![bug issues](https://img.shields.io/github/issues-search/butlergroup/env_encryption_tool?query=is%3Aissue%20state%3Aopen%20label%3Abug)
+[![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![Feature Requests](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/feature-request.svg)](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
+[![Bugs](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/bug.svg)](https://github.com/butlergroup/env_encryption_tool/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ## env_encryption_tool :copyright: Project Goals & Info
 
