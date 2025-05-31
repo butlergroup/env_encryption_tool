@@ -31,34 +31,43 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RUSTFLAGS: "-Cinstrument-coverage"
-      LLVM_PROFILE_FILE: "coverage-%p-%m.profraw"
+      RUSTFLAGS: "-Cinstrument-coverage -Clink-dead-code -Coverflow-checks=off"
+      LLVM_PROFILE_FILE: "coverage/%p-%m.profraw"
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Set up Rust with coverage tools
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+        components: llvm-tools-preview
 
     - name: Install grcov
       run: |
         curl -LsSf https://github.com/mozilla/grcov/releases/download/v0.8.19/grcov-x86_64-unknown-linux-gnu.tar.bz2 | tar xj
         sudo mv grcov /usr/local/bin/
 
-    - name: Build and Test with Coverage
+    - name: Run tests with coverage
       run: |
-        cargo build --verbose
-        cargo test --verbose
+        cargo clean
+        cargo build --tests
+        cargo test
       env:
         DECRYPTION_KEY: "12345678901234567890123456789012"
-
-    - name: Generate lcov.info
+        
+    - name: Generate coverage report
       run: |
-        mkdir coverage
+        mkdir -p coverage
         grcov . \
-          --source-dir . \
           --binary-path ./target/debug/ \
+          --source-dir . \
+          --output-type lcov \
           --branch \
           --ignore-not-existing \
-          --ignore "/*" \
-          --output-type lcov \
+          --ignore "/*/.cargo/**" \
+          --ignore "target/**" \
           --output-path coverage/lcov.info
 
     - name: Coveralls GitHub Action
