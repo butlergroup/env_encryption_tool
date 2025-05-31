@@ -30,6 +30,7 @@ If applicable, add screenshots to help explain your problem.
 # On Linux:
 $ cat /etc/os-release
 # paste output here
+# On Linux/MacOS:
 $ uname -a
 # paste output here
 
@@ -37,7 +38,7 @@ $ uname -a
 C:\> wmic os get Caption, Version, BuildNumber, OSArchitecture
 # paste output here
 ```
- - Browser [e.g. chrome, Firefox, safari]
+ - Browser [e.g. Chrome, Firefox, Safari]
 
 **Additional context**
 Add any other context about the problem here.
