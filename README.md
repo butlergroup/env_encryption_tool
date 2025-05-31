@@ -1,3 +1,7 @@
+[![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
+[![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![Mark stale issues and pull requests](https://github.com/butlergroup/env_encryption_tool/actions/workflows/stale.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/stale.yml)
+
 ## env_encryption_tool :copyright: Project Goals & Info
 
 **Purpose**: the goal for this project is to encrypt .env files for a given Rust application and store them in an encrypted state, then decrypt them at runtime using an OS-based environment variable and pass them to the application. This requires any potential/illicit attacker to breach the operating system's security and access its environment variables before any application-level environment variables can be compromised. 
