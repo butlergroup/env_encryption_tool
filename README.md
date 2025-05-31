@@ -1,6 +1,7 @@
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
-[![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
-[![Mark stale issues and pull requests](https://github.com/butlergroup/env_encryption_tool/actions/workflows/stale.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/stale.yml)
+[![Rust/Cargo build](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![feature-request issues](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aissue+state%3Aopen+label%3Aenhancement/badge.svg)](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aissue+state%3Aopen+label%3Aenhancement)
+[![bug issues](https://github.com/butlergroup/env_encryption_tool/actions/issues?q=is%3Aissue+state%3Aopen+label%3Abug/badge.svg)](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aissue+state%3Aopen+label%3Abug)
 
 ## env_encryption_tool :copyright: Project Goals & Info
 
