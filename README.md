@@ -4,6 +4,7 @@
 [![rust-clippy analyze](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10676/badge)](https://www.bestpractices.dev/projects/10676)
 [![Scorecard supply-chain security](https://github.com/butlergroup/env_encryption_tool/actions/workflows/scorecard.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/scorecard.yml)
+[![Microsoft Defender For Devops](https://github.com/butlergroup/env_encryption_tool/actions/workflows/defender-for-devops.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/defender-for-devops.yml)
 [![Coverage Status](https://coveralls.io/repos/github/butlergroup/env_encryption_tool/badge.svg?branch=main)](https://coveralls.io/github/butlergroup/env_encryption_tool?branch=main)
 [![Feature Requests](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/feature-request.svg)](https://github.com/butlergroup/env_encryption_tool/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
 [![Bugs](https://img.shields.io/github/issues/butlergroup/env_encryption_tool/bug.svg)](https://github.com/butlergroup/env_encryption_tool/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
