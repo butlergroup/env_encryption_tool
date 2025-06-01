@@ -17,7 +17,8 @@
 # Read the official documentation here : https://learn.microsoft.com/en-us/azure/defender-for-cloud/quickstart-onboard-github
 
 name: "Microsoft Defender For Devops"
-
+permissions:
+  contents: read
 on:
   push:
     branches: [ "main" ]
