@@ -31,7 +31,9 @@ jobs:
   MSDO:
     # currently only windows latest is supported
     runs-on: windows-latest
-
+    permissions:
+      # Needed to publish results and get a badge (see publish_results below).
+      id-token: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v4
