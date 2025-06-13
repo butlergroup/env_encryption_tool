@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
+**Desktop (please complete the following information):**
  - Architecture: [e.g. amd64, arm64, etc.]
  - OS info: [e.g. Ubuntu/RHEL, Windows, MacOS]
 ```console
@@ -38,7 +38,6 @@ $ uname -a
 C:\> wmic os get Caption, Version, BuildNumber, OSArchitecture
 # paste output here
 ```
- - Browser [e.g. Chrome, Firefox, Safari]
 
 **Additional context**
 Add any other context about the problem here.
