@@ -13,6 +13,8 @@
 
 **Purpose**: the goal for this project is to encrypt .env files for a given Rust application and store them in an encrypted state, then decrypt them at runtime using an OS-based environment variable and pass them to the application. This requires any potential/illicit attacker to breach the operating system's security and access its environment variables before any application-level environment variables can be compromised. 
 
+**Now uses PQ (Post-Quantum) cryptographic algorithms** :nail_care:
+
 *Disclaimer:* this project is stable and can be used in production environments, but SLA-based support won't be offered until we're at v1.0 and/or sponsored. :bowtie:
 
 ## Installation Instructions
