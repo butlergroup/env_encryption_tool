@@ -19,12 +19,11 @@
 
 1. [Install Rust](https://rustup.rs/) :earth_americas:
 2. Clone/fork the env_encryption_tool repo :zap:
-3. Modify the encryption key in main.rs to your desired content :lock:
+3. Set an OS-level environment variable named "DECRYPTION_KEY" ( :earth_americas: [for Linux](https://stackoverflow.com/questions/45502996/how-to-set-environment-variable-in-linux-permanently), :earth_africa: [for Windows](https://phoenixnap.com/kb/windows-set-environment-variable), :earth_asia: [for MacOS](https://stackoverflow.com/questions/65597552/how-exactly-to-set-up-and-use-environment-variables-on-a-mac)) to your desired 32-byte/character value :lock:
 4. Run "cargo build --release" - this outputs a binary in the target/release folder :sparkles:
 5. Run the binary in the same folder as your .env file - this outputs a env.enc file :confetti_ball:
 6. Integrate the included decrypt_config.rs file and its crates into your Rust project :star:
-7. Set an OS-level environment variable named "DECRYPTION_KEY" ( :earth_americas: [for Linux](https://stackoverflow.com/questions/45502996/how-to-set-environment-variable-in-linux-permanently), :earth_africa: [for Windows](https://phoenixnap.com/kb/windows-set-environment-variable), :earth_asia: [for MacOS](https://stackoverflow.com/questions/65597552/how-exactly-to-set-up-and-use-environment-variables-on-a-mac)) to the same value you placed in main.rs. 
-8. Copy the env.enc file to the same folder your Rust binary runs in and voila! You have encrypted environment variables provided to your application at runtime. :tada:
+7. Copy the env.enc file to the same folder your Rust binary runs in and voila! You have encrypted environment variables provided to your application at runtime. :tada:
 
 ## Contributing
 
