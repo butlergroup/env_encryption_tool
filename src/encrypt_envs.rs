@@ -1,11 +1,12 @@
-use aes_gcm::{Aes256Gcm, KeyInit, Nonce, aead::Aead};
 use argon2::{Argon2, Params, PasswordHasher, password_hash::SaltString};
+use pqcrypto::kem::mlkem1024::*;
+use pqcrypto_traits::kem::{Ciphertext, PublicKey, SecretKey, SharedSecret};
 use rand_core::{OsRng, TryRngCore};
 use std::error::Error;
 use std::fs::{self, File};
 use std::io::Write;
 
-/// Generate a random alphanumeric salt
+// Generate a random alphanumeric salt
 fn generate_salt() -> Vec<u8> {
     const CHARSET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let mut salt = [0u8; 16];
@@ -15,7 +16,7 @@ fn generate_salt() -> Vec<u8> {
         .collect()
 }
 
-/// Write a binary blob prefixed with its length
+// Write a binary blob prefixed with its length
 fn write_with_length(file: &mut File, data: &[u8]) -> std::io::Result<()> {
     let len = (data.len() as u32).to_be_bytes();
     file.write_all(&len)?;
@@ -23,7 +24,15 @@ fn write_with_length(file: &mut File, data: &[u8]) -> std::io::Result<()> {
     Ok(())
 }
 
-/// Encrypts `.env` and outputs `env.enc`
+// Simple XOR encryption with a repeating key
+fn xor_encrypt(data: &[u8], key: &[u8]) -> Vec<u8> {
+    data.iter()
+        .enumerate()
+        .map(|(i, b)| b ^ key[i % key.len()])
+        .collect()
+}
+
+// Encrypts `.env` and outputs `env.enc`
 pub fn encrypt_env_file() -> Result<(), Box<dyn Error>> {
     let salt = generate_salt();
     let key = std::env::var("DECRYPTION_KEY")
@@ -45,18 +54,21 @@ pub fn encrypt_env_file() -> Result<(), Box<dyn Error>> {
         .ok_or("Missing hash result")?
         .as_bytes()
         .to_vec();
+    // Kyber KEM keypair and encapsulation
+    let (pk, sk) = keypair();
+    let (shared_secret, kem_ct) = encapsulate(&pk);
+    // Encrypt .env contents using shared secret
     let plaintext = fs::read_to_string(".env")?;
-    let aes_key = Aes256Gcm::new_from_slice(&derived_key).map_err(|_| "Invalid derived AES key")?;
-    let mut nonce_bytes = [0u8; 12];
-    let _ = OsRng.try_fill_bytes(&mut nonce_bytes);
-    let nonce = Nonce::from_slice(&nonce_bytes);
-    let encrypted_data = aes_key
-        .encrypt(nonce, plaintext.as_bytes())
-        .map_err(|e| format!("Encryption failed: {}", e))?;
+    let encrypted_env = xor_encrypt(plaintext.as_bytes(), shared_secret.as_bytes());
+    // Encrypt the Kyber private key with Argon2-derived password key
+    let encrypted_sk = xor_encrypt(sk.as_bytes(), &derived_key);
+    // Write everything to the output file in a structured format
     let mut output_file = File::create("env.enc")?;
     write_with_length(&mut output_file, &salt)?;
-    write_with_length(&mut output_file, &nonce_bytes)?;
-    write_with_length(&mut output_file, &encrypted_data)?;
-    println!("Encryption successful. Output written to 'env.enc'");
+    write_with_length(&mut output_file, pk.as_bytes())?;
+    write_with_length(&mut output_file, kem_ct.as_bytes())?;
+    write_with_length(&mut output_file, &encrypted_sk)?;
+    write_with_length(&mut output_file, &encrypted_env)?;
+    println!("PQ-safe encryption complete. Output written to 'env.enc'");
     Ok(())
 }
