@@ -18,12 +18,8 @@ static EXPECTED_VARS: Lazy<Mutex<HashMap<&str, &str>>> = Lazy::new(|| {
 });
 
 fn project_root() -> PathBuf {
-    // Move from /tests/encryption_tests.rs to root by going one level up
-    let mut dir = env::current_dir().expect("Failed to get current directory");
-    if dir.ends_with("tests") {
-        dir.pop(); // go up to root
-    }
-    dir
+    // just use current_dir, don't pop()
+    env::current_dir().expect("Failed to get current directory")
 }
 
 fn write_sample_env() {

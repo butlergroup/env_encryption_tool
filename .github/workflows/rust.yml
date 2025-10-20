@@ -90,4 +90,4 @@ jobs:
           unset RUSTFLAGS
           cargo miri test
         env:
-          MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-isolation-error=warn"
+          MIRIFLAGS: "-Zmiri-strict-provenance --Zmiri-isolation-dir=tests"
