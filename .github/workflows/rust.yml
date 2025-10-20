@@ -14,7 +14,10 @@ env:
   
 jobs:
   build:
-    name: "cargo build & test + Miri on ${{ matrix.os }} with ${{ matrix.rust }} Rust"
+    name: "build & test + Miri, ${{ matrix.os }}, ${{ matrix.rust }} Rust"
+    env:
+      MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
+      DECRYPTION_KEY: "12345678901234567890123456789012"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -36,9 +39,6 @@ jobs:
     - name: Run Miri tests
       run: |
         cargo miri test
-      env:
-        MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
-        DECRYPTION_KEY: "12345678901234567890123456789012"
 
   coverage:
     runs-on: ubuntu-latest
