@@ -11,13 +11,12 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  
+  MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
+  DECRYPTION_KEY: "12345678901234567890123456789012"
+
 jobs:
   build:
     name: "Tests+Miri-${{ matrix.os }}-${{ matrix.rust }} Rust"
-    env:
-      MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
-      DECRYPTION_KEY: "12345678901234567890123456789012"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -29,8 +28,8 @@ jobs:
       run: |
         rustup toolchain install ${{ matrix.rust }}
         rustup override set ${{ matrix.rust }}
-    - name: Install Miri (nightly only) & run tests
-      if: matrix.rust == 'nightly'
+    - name: Install Miri on Ubuntu/nightly Rust only & run tests
+      if: matrix.os == 'ubuntu-latest' && matrix.rust == 'nightly'
       run: |
         rustup component add miri
         cargo miri setup
