@@ -90,4 +90,4 @@ jobs:
           unset RUSTFLAGS
           cargo miri test
         env:
-          MIRIFLAGS: "-Zmiri-strict-provenance --Zmiri-isolation-dir=tests"
+          MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-permission=env -Zmiri-permission=read-write:tests"
