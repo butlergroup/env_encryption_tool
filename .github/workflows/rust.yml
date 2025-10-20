@@ -25,18 +25,20 @@ jobs:
         rust: [nightly, beta, stable]
     steps:
     - uses: actions/checkout@v4
-    - name: Install Rust + Miri
+    - name: Install Rust toolchain
       run: |
-        rustup toolchain install ${{ matrix.rust }} --component miri
+        rustup toolchain install ${{ matrix.rust }}
         rustup override set ${{ matrix.rust }}
+    - name: Install Miri (nightly only) & run tests
+      if: matrix.rust == 'nightly'
+      run: |
+        rustup component add miri
         cargo miri setup
+        cargo miri test
     - name: Build
       run: cargo build --verbose
     - name: Run cargo test
       run: cargo test --verbose
-    - name: Run Miri tests
-      run: |
-        cargo miri test
 
   coverage:
     runs-on: ubuntu-latest
