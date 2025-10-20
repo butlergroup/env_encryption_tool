@@ -88,8 +88,6 @@ jobs:
       - name: Run Miri tests (disable coverage flags)
         run: |
           unset RUSTFLAGS
-          cargo build --tests
           cargo miri test
         env:
-          MIRIFLAGS: -Zmiri-strict-provenance
-          DECRYPTION_KEY: "12345678901234567890123456789012"
+          MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-isolation-error=warn"
