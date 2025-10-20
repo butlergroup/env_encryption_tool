@@ -16,7 +16,7 @@ env:
 
 jobs:
   build:
-    name: "Tests+Miri-${{ matrix.os }}-${{ matrix.rust }} Rust"
+    name: ${{ matrix.os == 'ubuntu-latest' && matrix.rust == 'nightly' && 'Tests+Miri' || 'Tests' }}-${{ matrix.os }}-${{ matrix.rust }} Rust
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
