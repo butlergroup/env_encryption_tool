@@ -1,4 +1,4 @@
-name: Rust CI
+name: Rust CI/Unit Tests
 
 permissions:
   contents: read
@@ -14,41 +14,49 @@ env:
   
 jobs:
   build:
+    name: "cargo build & test + Miri on ${{ matrix.os }} with ${{ matrix.rust }} Rust"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [nightly, beta, stable]
     steps:
     - uses: actions/checkout@v4
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        override: true
     - name: Build
       run: cargo build --verbose
-    - name: Run tests
+    - name: Run cargo test
       run: cargo test --verbose
+    - uses: dtolnay/rust-toolchain@miri
+    - run: cargo miri setup
+    - name: Run Miri tests
+      run: |
+        cargo miri test
       env:
+        MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
         DECRYPTION_KEY: "12345678901234567890123456789012"
 
   coverage:
     runs-on: ubuntu-latest
-
     env:
       RUSTFLAGS: "-Cinstrument-coverage -Clink-dead-code -Coverflow-checks=off"
       LLVM_PROFILE_FILE: "coverage/%p-%m.profraw"
-
     steps:
     - uses: actions/checkout@v4
-
     - name: Set up Rust with coverage tools
       uses: actions-rs/toolchain@v1
       with:
-        toolchain: nightly
+        toolchain: stable
         override: true
         components: llvm-tools-preview
-
     - name: Install grcov
       run: |
         curl -LsSf https://github.com/mozilla/grcov/releases/download/v0.8.19/grcov-x86_64-unknown-linux-gnu.tar.bz2 | tar xj
         sudo mv grcov /usr/local/bin/
-
     - name: Run tests with coverage
       run: |
         cargo clean
@@ -56,7 +64,6 @@ jobs:
         cargo test
       env:
         DECRYPTION_KEY: "12345678901234567890123456789012"
-        
     - name: Generate coverage report
       run: |
         mkdir -p coverage
@@ -69,26 +76,9 @@ jobs:
           --ignore "/*/.cargo/**" \
           --ignore "target/**" \
           --output-path coverage/lcov.info
-
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v2.3.6
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       with:
         path-to-lcov: coverage/lcov.info
-
-  miri:
-    name: Miri
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@miri
-      - run: cargo miri setup
-      - name: Run Miri tests (disable coverage flags)
-        run: |
-          unset RUSTFLAGS
-          cargo miri test
-        env:
-          MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
-          DECRYPTION_KEY: "12345678901234567890123456789012"
