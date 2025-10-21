@@ -58,8 +58,13 @@ fn test_encrypt_and_decrypt_env_file() {
         encrypt_result.err()
     );
     // Decrypt .env.enc
-    let rt = tokio::runtime::Runtime::new().unwrap();
-    let result = rt.block_on(decrypt_env_vars());
+    #[cfg(miri)]
+    let result = futures::executor::block_on(decrypt_env_vars());
+    #[cfg(not(miri))]
+    let result = {
+        let rt = tokio::runtime::Runtime::new().unwrap();
+        rt.block_on(decrypt_env_vars())
+    };
     assert!(result.is_ok(), "Decryption failed: {:?}", result.err());
     // Verify environment values
     let expected = EXPECTED_VARS.lock().unwrap();
