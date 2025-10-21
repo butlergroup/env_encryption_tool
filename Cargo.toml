@@ -11,7 +11,7 @@ path = "src/main.rs"
 rand_core = { version = "0.9.3", features = ["os_rng"] } # Random number generators and other randomness functionality. 
 argon2 = "0.5.3"                                         # Key derivation with resistance to GPU cracking and side-channel attacks
 log = "0.4.28"                                           # A lightweight logging facade for Rust 
-pqcrypto = "0.18.1"                                      # Post-Quantum crypto algorithm suite - MLKEM, MLDSA, falcon, sphincs, Kyber, Dilithium
+pqcrypto = { git = "https://github.com/butlergroup/pqcrypto.git" } # Post-Quantum cryptographic primitives; forked to resolve RUSTSEC-2024-0436 with the paste crate
 pqcrypto-traits = "0.3.5"                                # Shared traits for post-quantum cryptographic primitives
 env = "1.0.1"                                            # Provides a safe interface for std::env::{set_var, remove_var}.
 once_cell = "1.21.3"                                     # Single assignment cells and lazy values.

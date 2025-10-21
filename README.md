@@ -15,8 +15,6 @@
 
 **Now uses PQ (Post-Quantum) cryptographic algorithms** :nail_care:
 
-Note: the "paste" crate is used indirectly via the pqcrypto crate's procedural macros. This usage does not trigger the unsound behavior noted in RUSTSEC-2024-0436 which is currently present on the Security tab of this repository.
-
 *Disclaimer:* this project is stable and can be used in production environments, but SLA-based support won't be offered until we're at v1.0 and/or sponsored. :bowtie:
 
 ## Installation Instructions
