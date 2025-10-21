@@ -1,5 +1,6 @@
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
 [![Rust](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![Snyk Security-Monitored](https://img.shields.io/badge/Snyk%20Security-Monitored-purple)](https://app.snyk.io/share/784f6fef-6aaf-47ed-81ba-99e05b854665)
 [![dependency status](https://deps.rs/repo/github/butlergroup/env_encryption_tool/status.svg)](https://deps.rs/repo/github/butlergroup/env_encryption_tool)
 [![rust-clippy analyze](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10676/badge)](https://www.bestpractices.dev/projects/10676)
