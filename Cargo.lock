@@ -121,7 +121,7 @@ dependencies = [
 
 [[package]]
 name = "env_encryption_tool"
-version = "0.9.13"
+version = "0.9.14"
 dependencies = [
  "argon2",
  "env",

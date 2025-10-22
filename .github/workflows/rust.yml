@@ -38,6 +38,10 @@ jobs:
         rustup component add miri
         cargo miri setup
         cargo miri test
+    - name: Run cargo check with all features
+      run: cargo check --all-features
+    - name: Run cargo fmt
+      run: cargo fmt --all -- --check
     - name: Build
       run: cargo build --verbose
     - name: Run cargo test
