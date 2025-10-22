@@ -28,6 +28,11 @@ fn write_sample_env() {
     let mut file = File::create(env_path).expect("Failed to create .env in root");
     writeln!(file, "TEST_KEY=test_value").unwrap();
     writeln!(file, "ANOTHER_KEY=1234").unwrap();
+    #[cfg(miri)]
+    {
+        env::set_var("TEST_KEY", "test_value");
+        env::set_var("ANOTHER_KEY", "1234");
+    }
 }
 
 fn cleanup_env_files() {
