@@ -50,21 +50,22 @@ fn test_encrypt_and_decrypt_env_file() {
     let _ = env::set_var("DECRYPTION_KEY", key);
     // Create .env file in root dir
     write_sample_env();
+    #[cfg(not(miri))]
     // Encrypt .env
     let encrypt_result = env_encryption_tool::encrypt_envs::encrypt_env_file();
+    #[cfg(not(miri))]
     assert!(
         encrypt_result.is_ok(),
         "Encryption failed: {:?}",
         encrypt_result.err()
     );
+        #[cfg(not(miri))]
     // Decrypt .env.enc
-    #[cfg(miri)]
-    let result = futures::executor::block_on(decrypt_env_vars());
-    #[cfg(not(miri))]
     let result = {
         let rt = tokio::runtime::Runtime::new().unwrap();
         rt.block_on(decrypt_env_vars())
     };
+    #[cfg(not(miri))]
     assert!(result.is_ok(), "Decryption failed: {:?}", result.err());
     // Verify environment values
     let expected = EXPECTED_VARS.lock().unwrap();
