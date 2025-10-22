@@ -33,7 +33,7 @@ pub static ENV_VARS: Lazy<Mutex<HashMap<String, String>>> =
     Lazy::new(|| Mutex::new(HashMap::new()));
 
 // Store an environment variable in memory
-fn set_env_var(key: &str, value: &str) {
+pub fn set_env_var(key: &str, value: &str) {
     let mut env_vars = ENV_VARS.lock().unwrap(); // ✅ Lock synchronously
     env_vars.insert(key.to_string(), value.to_string()); // ✅ Insert into HashMap
 }

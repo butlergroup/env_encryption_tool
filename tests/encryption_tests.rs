@@ -1,4 +1,5 @@
 use env;
+use log::info;
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
 use std::fs::File;
@@ -7,7 +8,7 @@ use std::path::PathBuf;
 use std::sync::Mutex;
 
 // Use decrypt logic from your main code
-use env_encryption_tool::decrypt_envs::{decrypt_env_vars, get_env_var};
+use env_encryption_tool::decrypt_envs::{decrypt_env_vars, get_env_var, set_env_var};
 
 // Global setup
 static EXPECTED_VARS: Lazy<Mutex<HashMap<&str, &str>>> = Lazy::new(|| {
@@ -28,9 +29,14 @@ fn write_sample_env() {
     let mut file = File::create(env_path).expect("Failed to create .env in root");
     writeln!(file, "TEST_KEY=test_value").unwrap();
     writeln!(file, "ANOTHER_KEY=1234").unwrap();
-    #[cfg(miri)]
-    let _ = env::set_var("TEST_KEY", "test_value");
-    let _ = env::set_var("ANOTHER_KEY", "1234");
+    let key1 = "TEST_KEY";
+    let value1 = "test_value";
+    let key2 = "ANOTHER_KEY";
+    let value2 = "1234";
+    info!("Setting env: {} = {}", key1, value1);
+    set_env_var(key1, &value1);
+    info!("Setting env: {} = {}", key2, value2);
+    set_env_var(key2, &value2);
 }
 
 fn cleanup_env_files() {
