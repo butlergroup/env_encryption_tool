@@ -29,10 +29,8 @@ fn write_sample_env() {
     writeln!(file, "TEST_KEY=test_value").unwrap();
     writeln!(file, "ANOTHER_KEY=1234").unwrap();
     #[cfg(miri)]
-    {
-        env::set_var("TEST_KEY", "test_value");
-        env::set_var("ANOTHER_KEY", "1234");
-    }
+    let _ = env::set_var("TEST_KEY", "test_value");
+    let _ = env::set_var("ANOTHER_KEY", "1234");
 }
 
 fn cleanup_env_files() {
@@ -64,7 +62,7 @@ fn test_encrypt_and_decrypt_env_file() {
         "Encryption failed: {:?}",
         encrypt_result.err()
     );
-        #[cfg(not(miri))]
+    #[cfg(not(miri))]
     // Decrypt .env.enc
     let result = {
         let rt = tokio::runtime::Runtime::new().unwrap();
