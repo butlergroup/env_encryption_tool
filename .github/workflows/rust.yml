@@ -30,7 +30,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install Rust toolchain
       run: |
-        rustup toolchain install ${{ matrix.rust }}
+        rustup toolchain install ${{ matrix.rust }} --component rustfmt
         rustup override set ${{ matrix.rust }}
     - name: Install Miri on Ubuntu/nightly Rust only & run tests
       if: matrix.os == 'ubuntu-latest' && matrix.rust == 'nightly'
