@@ -19,4 +19,4 @@ tokio = { version = "1.49.0", features = ["full"] }                # Fast, async
 
 [patch.crates-io]
 bytes = { git = 'https://github.com/tokio-rs/bytes.git' }          # added to resolve CVE-2026-25541
-pqcrypto-traits = { git = "https://github.com/butlergroup/pqcrypto.git" } # added to resolve dependency conflicts
+pqcrypto-traits = { git = "https://github.com/butlergroup/pqcrypto.git" } # added to resolve dependency conflicts 
