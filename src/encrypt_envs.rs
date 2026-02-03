@@ -1,7 +1,7 @@
 use argon2::{Argon2, Params, PasswordHasher, password_hash::SaltString};
 use pqcrypto::kem::mlkem1024::*;
 use pqcrypto_traits::kem::{Ciphertext, PublicKey, SecretKey, SharedSecret};
-use rand_core::{OsRng, TryRngCore};
+use rand::{TryRngCore, rngs::OsRng};
 use std::error::Error;
 use std::fs::{self, File};
 use std::io::Write;
