@@ -60,7 +60,7 @@ pub async fn decrypt_env_vars() -> Result<(), Box<dyn Error>> {
     let mut cursor = &file_content[..];
     // Read fields
     let salt = read_with_length(&mut cursor)?;
-    let pk_bytes = read_with_length(&mut cursor)?; 
+    let pk_bytes = read_with_length(&mut cursor)?;
     let kem_ct_bytes = read_with_length(&mut cursor)?;
     let nonce_bytes = read_with_length(&mut cursor)?;
     let wrapped_sk = read_with_length(&mut cursor)?;
