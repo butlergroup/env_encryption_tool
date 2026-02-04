@@ -1,14 +1,21 @@
-use argon2::{Argon2, Params, PasswordHasher, password_hash::SaltString};
+use argon2::{Argon2, Params};
+use chacha20poly1305::{
+    ChaCha20Poly1305, Key, Nonce,
+    aead::{Aead, KeyInit},
+};
 use env;
+use hkdf::Hkdf;
 use log::{error, info};
 use once_cell::sync::Lazy;
 use pqcrypto::kem::mlkem1024::*;
-use pqcrypto_traits::kem::{Ciphertext, SecretKey, SharedSecret};
+use pqcrypto_traits::kem::{Ciphertext, PublicKey, SecretKey, SharedSecret};
+use sha2::Sha256;
 use std::collections::HashMap;
 use std::error::Error;
 use std::fs;
 use std::io::Read;
 use std::sync::Mutex;
+use zeroize::Zeroize;
 
 // Function to read data with length prefix
 fn read_with_length(file: &mut &[u8]) -> Result<Vec<u8>, Box<dyn Error>> {
@@ -20,12 +27,9 @@ fn read_with_length(file: &mut &[u8]) -> Result<Vec<u8>, Box<dyn Error>> {
     Ok(buffer)
 }
 
-// XOR decryption with repeating key
-fn xor_decrypt(data: &[u8], key: &[u8]) -> Vec<u8> {
-    data.iter()
-        .enumerate()
-        .map(|(i, b)| b ^ key[i % key.len()])
-        .collect()
+// Error handling helper
+fn boxed_err<E: std::fmt::Display>(e: E) -> Box<dyn Error> {
+    format!("{}", e).into()
 }
 
 // Instantiate a global HashMap to hold environment variables
@@ -56,31 +60,57 @@ pub async fn decrypt_env_vars() -> Result<(), Box<dyn Error>> {
     let mut cursor = &file_content[..];
     // Read fields
     let salt = read_with_length(&mut cursor)?;
-    let _pk_bytes = read_with_length(&mut cursor)?;
+    let pk_bytes = read_with_length(&mut cursor)?; 
     let kem_ct_bytes = read_with_length(&mut cursor)?;
-    let encrypted_sk = read_with_length(&mut cursor)?;
+    let nonce_bytes = read_with_length(&mut cursor)?;
+    let wrapped_sk = read_with_length(&mut cursor)?;
     let encrypted_env = read_with_length(&mut cursor)?;
+    // ✅ Use Params for Argon2 configuration
+    let params = Params::new(524288, 4, 1, Some(32))
+        .map_err(|e| format!("Invalid Argon2 parameters: {}", e))?;
     // Derive key using Argon2
-    let salt_string =
-        SaltString::encode_b64(&salt).map_err(|e| format!("Invalid salt encoding: {}", e))?;
-    let argon2 = Argon2::default();
-    let params =
-        Params::new(65536, 3, 1, None).map_err(|e| format!("Invalid Argon2 parameters: {}", e))?;
-    let derived_key = argon2
-        .hash_password_customized(password.as_bytes(), None, None, params, &salt_string)
-        .map_err(|e| format!("Argon2 hashing error: {}", e))?
-        .hash
-        .ok_or("Missing hash result")?
-        .as_bytes()
-        .to_vec();
+    let argon2 = Argon2::new(argon2::Algorithm::Argon2id, argon2::Version::V0x13, params);
+    let mut derived_key = vec![0u8; 32];
+    argon2
+        .hash_password_into(password.as_bytes(), &salt, &mut derived_key)
+        .map_err(boxed_err)?;
     // Decrypt private key
-    let sk_bytes = xor_decrypt(&encrypted_sk, &derived_key);
-    let sk = SecretKey::from_bytes(&sk_bytes)?;
+    let mut sk_bytes: Vec<u8> = wrapped_sk
+        .iter()
+        .zip(derived_key.iter().cycle())
+        .map(|(a, b)| a ^ b)
+        .collect();
+    derived_key.zeroize();
+    let sk = SecretKey::from_bytes(&sk_bytes).map_err(boxed_err)?;
+    sk_bytes.zeroize();
+    // ---------- Public Key Verification ----------
+    let pk = PublicKey::from_bytes(&pk_bytes).map_err(boxed_err)?;
+    // Re-encapsulate test ciphertext using stored public key
+    let (test_ss, test_ct) = encapsulate(&pk);
+    // Attempt decapsulation using unwrapped secret key
+    let verify_ss = decapsulate(&test_ct, &sk);
+    // Compare secrets
+    if test_ss.as_bytes() != verify_ss.as_bytes() {
+        return Err(
+            "Public/Private key mismatch — possible tampering or incorrect password".into(),
+        );
+    }
     // Reconstruct ciphertext and public key
     let kem_ct = Ciphertext::from_bytes(&kem_ct_bytes)?;
     let shared_secret = decapsulate(&kem_ct, &sk);
-    let decrypted_env = xor_decrypt(&encrypted_env, shared_secret.as_bytes());
-    let decrypted_string = String::from_utf8(decrypted_env)?;
+    // HKDF
+    let hk = Hkdf::<Sha256>::new(None, shared_secret.as_bytes());
+    let mut sym_key = [0u8; 32];
+    hk.expand(b"env encryption", &mut sym_key)
+        .map_err(boxed_err)?;
+    // Derive AEAD key
+    let cipher = ChaCha20Poly1305::new(Key::from_slice(&sym_key));
+    sym_key.zeroize();
+    let nonce = Nonce::from_slice(&nonce_bytes);
+    let decrypted_env = cipher
+        .decrypt(nonce, encrypted_env.as_ref())
+        .map_err(boxed_err)?;
+    let mut decrypted_string = String::from_utf8(decrypted_env)?;
     // Parse environment lines and populate in-memory store
     for line in decrypted_string.lines() {
         if !line.is_empty() {
@@ -99,5 +129,6 @@ pub async fn decrypt_env_vars() -> Result<(), Box<dyn Error>> {
         }
     }
     info!("Decryption complete. Environment variables are in memory.");
+    decrypted_string.zeroize();
     Ok(())
 }
