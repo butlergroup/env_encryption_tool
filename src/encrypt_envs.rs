@@ -6,7 +6,7 @@ use chacha20poly1305::{
 use hkdf::Hkdf;
 use pqcrypto::kem::mlkem1024::*;
 use pqcrypto_traits::kem::{Ciphertext, PublicKey, SecretKey, SharedSecret};
-use rand::{TryRngCore, rngs::OsRng};
+use rand::{TryRng, rngs::SysRng};
 use sha2::Sha256;
 use std::error::Error;
 use std::fs::{self, File};
@@ -17,7 +17,7 @@ use zeroize::Zeroize;
 fn generate_salt() -> Vec<u8> {
     const CHARSET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let mut salt = [0u8; 16];
-    let _ = OsRng.try_fill_bytes(&mut salt);
+    let _ = SysRng.try_fill_bytes(&mut salt);
     salt.iter()
         .map(|&b| CHARSET[(b as usize) % CHARSET.len()])
         .collect()
