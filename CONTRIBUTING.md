@@ -10,7 +10,7 @@ Use the table of contents icon to get to a specific section of this guide quickl
 
 ## New contributor guide
 
-Anyone (and any company) can clone the repository and use or modify the software :sparkles:. The only caveat is that you must disclose your modifications (ideally by reintegrating them into our reposotiry with a pull request). **Using a modified version of this software without disclosing its source code is not in compliance with the AGPL-3.0 license.**
+Anyone (and any company) can clone the repository and use or modify the software :sparkles:. The only caveat is that you must disclose your modifications (ideally by reintegrating them into our repository with a pull request). **Using a modified version of this software without disclosing its source code is not in compliance with the AGPL-3.0 license.**
 
 To get an overview of the project, please read the [README](/README.md) file. Here are some resources to help you get started with open source contributions:
 
@@ -27,7 +27,7 @@ To navigate our codebase with confidence, please see our [README](/README.md) :c
 
 #### Create a new issue
 
-Once you've cloned the repository and famliarized yourself with our software, if you have a feature request or spot a problem with a component of the code, [search to see if an issue already exists](https://github.com/butlergroup/env_encryption_tool/issues). If a related issue doesn't exist, you can open a new issue using the Issues page of this repository.
+Once you've cloned the repository and familiarized yourself with our software, if you have a feature request or spot a problem with a component of the code, [search to see if an issue already exists](https://github.com/butlergroup/env_encryption_tool/issues). If a related issue doesn't exist, you can open a new issue using the Issues page of this repository.
 
 #### Solve an issue
 
@@ -36,7 +36,7 @@ Scan through our [existing issues](https://github.com/butlergroup/env_encryption
 ### Make Changes
 
 1. Fork the repository. We use forks so that you can make your changes and test them without affecting the original project until you're ready to merge them.
-- Uaing VS Code:
+- Using VS Code:
   - [Fork the repo](https://code.visualstudio.com/docs/sourcecontrol/github).
 
 - Using GitHub Desktop:
@@ -54,7 +54,7 @@ Commit and push your changes to your branch once you are happy with them :zap:.
 
 ### Pull Request
 
-Please reference and adhere to our [pull request tepmlate](https://github.com/butlergroup/env_encryption_tool/blob/main/.github/PULL_REQUEST_TEMPLATE.md) when filing your pull request. 
+Please reference and adhere to our [pull request template](https://github.com/butlergroup/env_encryption_tool/blob/main/.github/PULL_REQUEST_TEMPLATE.md) when filing your pull request. 
 
 Once you've **thoroughly tested and debugged your changes**, create a pull request (sometimes referred to on Github as a PR) in this repo. Describe to the reviewers what changes you've made as well as the purpose of your pull request.
 
