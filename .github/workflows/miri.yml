@@ -1,0 +1,31 @@
+name: miri
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  miri:
+    name: Miri
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+      - uses: dtolnay/rust-toolchain@miri
+      - run: cargo miri setup
+      - name: Run Miri tests (disable coverage flags)
+        run: cargo miri test
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
