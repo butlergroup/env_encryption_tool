@@ -157,7 +157,7 @@
                 "name": "Install cargo cross",
               },
               {
-                "run": "cross test --target ${{ matrix.platform }} --no-default-features --env DECRYPTION_KEY",
+                "run": "cross test --target ${{ matrix.platform }} --no-default-features -- --env DECRYPTION_KEY",
                 "name": "Run tests",
                 "env":
                   {
