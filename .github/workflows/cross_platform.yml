@@ -16,6 +16,7 @@
         {
           "name": "Cross platform test (platforms with standard library)",
           "runs-on": "ubuntu-latest",
+          "env": { "DECRYPTION_KEY": "12345678901234567890123456789012" },
           "strategy": { "fail-fast": false, "matrix": { "platform": [
                       # Tier 1
                       "aarch64-unknown-linux-gnu",
@@ -158,7 +159,12 @@
               {
                 "run": "cross test --target ${{ matrix.platform }}",
                 "name": "Run tests",
-                "env": { "RUSTFLAGS": "-D warnings", "RUST_BACKTRACE": "1" },
+                "env":
+                  {
+                    "RUSTFLAGS": "-D warnings",
+                    "RUST_BACKTRACE": "1",
+                    "DECRYPTION_KEY": "12345678901234567890123456789012",
+                  },
               },
             ],
         },

@@ -39,8 +39,8 @@ fn boxed_err<E: std::fmt::Display>(e: E) -> Box<dyn Error> {
 // Encrypts `.env` and outputs `env.enc`
 pub fn encrypt_env_file() -> Result<(), Box<dyn Error>> {
     let mut salt = generate_salt();
-    let key = env::var("DECRYPTION_KEY")
-        .map_err(|_| "Missing DECRYPTION_KEY environment variable")?;
+    let key =
+        env::var("DECRYPTION_KEY").map_err(|_| "Missing DECRYPTION_KEY environment variable")?;
     if key.len() != 32 {
         return Err("DECRYPTION_KEY must be exactly 32 characters long".into());
     }

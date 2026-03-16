@@ -25,7 +25,8 @@ jobs:
         name: Checkout
       - uses: dtolnay/rust-toolchain@miri
       - run: cargo miri setup
-      - name: Run Miri tests (disable coverage flags)
+      - name: Run Miri tests (disable isolation)
         run: cargo miri test
         env:
-          MIRIFLAGS: -Zmiri-strict-provenance
+          MIRIFLAGS: "-Zmiri-strict-provenance -Zmiri-disable-isolation"
+          DECRYPTION_KEY: "12345678901234567890123456789012"
