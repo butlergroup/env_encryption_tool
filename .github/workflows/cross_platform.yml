@@ -157,7 +157,7 @@
                 "name": "Install cargo cross",
               },
               {
-                "run": 'cross test --target ${{ matrix.platform }} --no-default-features --features "portable"',
+                "run": "cross test --target ${{ matrix.platform }} --no-default-features",
                 "name": "Run tests",
                 "env":
                   {
