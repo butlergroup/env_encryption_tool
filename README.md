@@ -62,7 +62,7 @@ Please also read our [Privacy Policy](https://github.com/butlergroup/env_encrypt
 
 ## Contact
 
-Have questions or suggestions? Reach out to us at welcome@butlergroup.net. Thank you and happy coding! :)
+Have questions or suggestions? Reach out to us at dev@butlergroup.net. Thank you and happy coding! :)
 
 ## Star History
 
