@@ -3,6 +3,7 @@
 [![](https://img.shields.io/badge/license-AGPL_3.0-blue.svg)](https://opensource.org/licenses/AGPL_3.0)
 [![CodeQL](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/github-code-scanning/codeql)
 [![Rust CI/Unit Tests](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust.yml)
+[![Dependabot Updates](https://github.com/butlergroup/env_encryption_tool/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/dependabot/dependabot-updates)
 [![miri](https://github.com/butlergroup/env_encryption_tool/actions/workflows/miri.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/miri.yml)
 [![rust-clippy analyze](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/rust-clippy.yml)
 [![Security audit](https://github.com/butlergroup/env_encryption_tool/actions/workflows/security.yml/badge.svg)](https://github.com/butlergroup/env_encryption_tool/actions/workflows/security.yml)
