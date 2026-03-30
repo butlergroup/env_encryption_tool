@@ -1,10 +1,24 @@
-## Version 0.9.18 
+## Version 0.9.19 
 
 #### New Features
 
 
 #### Improvements
 
+
+#### Fixes
+
+
+---
+
+## Version 0.9.18 (03-30-2026)
+
+#### New Features
+
+
+#### Improvements
+- bump hkdf from 0.12.4 to 0.13.0
+- bump sha2 from 0.10.9 to 0.11.0
 
 #### Fixes
 
