@@ -1,10 +1,23 @@
-## Version 0.9.19 
+## Version 0.9.20 
 
 #### New Features
 
 
 #### Improvements
 
+
+#### Fixes
+
+
+---
+
+## Version 0.9.19 (04-03-2026)
+
+#### New Features
+
+
+#### Improvements
+- bump tokio from 1.50.0 to 1.51.0
 
 #### Fixes
 
