@@ -1,6 +1,6 @@
 [package]
 name = "env_encryption_tool"
-version = "0.9.20"
+version = "0.9.21"
 edition = "2024"
 authors = [
     "The Butler Group LLC <dev@butlergroup.net>",
@@ -19,7 +19,7 @@ name = "env_encryption_tool"
 path = "src/main.rs" 
 
 [dependencies]
-rand = "0.10.0"                                                    # Random number generators and other randomness functionality. 
+rand = "0.10.1"                                                    # Random number generators and other randomness functionality. 
 argon2 = "0.5.3"                                                   # Key derivation with resistance to GPU cracking and side-channel attacks
 log = "0.4.29"                                                     # A lightweight logging facade for Rust 
 pqcrypto = "0.18.1"                                                # Post-Quantum cryptographic primitives

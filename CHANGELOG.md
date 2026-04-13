@@ -1,10 +1,23 @@
-## Version 0.9.21 
+## Version 0.9.22 
 
 #### New Features
 
 
 #### Improvements
 
+
+#### Fixes
+
+
+---
+
+## Version 0.9.21 (04-13-2026)
+
+#### New Features
+
+
+#### Improvements
+- bump rand from 0.10.0 to 0.10.1 
 
 #### Fixes
 
