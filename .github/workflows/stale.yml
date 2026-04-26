@@ -8,7 +8,7 @@ permissions:
   contents: read
 on:
   schedule:
-  - cron: '19 20 * * *'
+  - cron: '19 20 * * 0'
 
 jobs:
   stale:

@@ -17,7 +17,7 @@ on:
   merge_group:
     branches: [ "main" ]
   schedule:
-    - cron: '23 23 * * 0'
+    - cron: "23 23 * * 0"
   push:
     branches: [ "main" ]
 
@@ -39,7 +39,8 @@ jobs:
       contents: read
       actions: read
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@c51854704019a247608d928f370c98740469d4b5" # v2.3.5
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@c51\
+      854704019a247608d928f370c98740469d4b5" # v2.3.5
     with:
       # Example of specifying custom arguments
       scan-args: |-
@@ -53,8 +54,10 @@ jobs:
       # Read commit contents
       contents: read
       actions: read
-    if: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@c51854704019a247608d928f370c98740469d4b5" # v2.3.5
+    if: ${{ github.event_name == 'pull_request' || github.event_name ==
+      'merge_group' }}
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@\
+      c51854704019a247608d928f370c98740469d4b5" # v2.3.5
     with:
       # Example of specifying custom arguments
       scan-args: |-

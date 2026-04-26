@@ -1,8 +1,10 @@
 name: Security audit
 
 on:
+  schedule:
+    - cron: '1 23 * * *'
   push:
-    branches: [main]
+    branches: [ main ]
 
 permissions:
   contents: read
