@@ -1,7 +1,7 @@
 name: Greetings
 permissions:
   contents: read
-on: [pull_request_target, issues]
+on: [ pull_request_target, issues ]
 
 jobs:
   greeting:
@@ -10,8 +10,10 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-    - uses: actions/first-interaction@v3
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: "Hello and thank you for opening an issue. We'll look into it as soon as possible."
-        pr-message: "Hello and thank you for opening a pull request. We'll review it and make a decision as soon as possible."
+      - uses: actions/first-interaction@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "Hello and thank you for opening an issue. We'll look into it as
+            soon as possible."
+          pr-message: "Hello and thank you for opening a pull request. We'll review it and
+            make a decision as soon as possible."
