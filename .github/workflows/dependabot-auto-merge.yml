@@ -22,13 +22,8 @@ jobs:
         uses: dependabot/fetch-metadata@d7267f607e9d3fb96fc2fbe83e0af444713e90b7
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Wait for checks
-        run: gh pr checks "$PR_URL" --watch --fail-fast
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Merge Dependabot PRs that pass all tests
-        run: gh pr merge --merge "$PR_URL"
+      - name: Enable auto-merge for Dependabot PRs that pass all cheecks
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
