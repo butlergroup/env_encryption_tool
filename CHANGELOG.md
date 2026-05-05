@@ -4,7 +4,7 @@
 
 
 #### Improvements
-
+- bump tokio from 1.52.1 to 1.52.2
 
 #### Fixes
 
