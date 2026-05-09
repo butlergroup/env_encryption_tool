@@ -3,27 +3,76 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 name: Dependabot auto-merge
+
 on:
   pull_request:
-    branches: [ main ]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
+  checks: read
 
 jobs:
   dependabot:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Enable auto-merge for Dependabot PRs that pass all cheecks
-        run: gh pr merge --auto --merge "$PR_URL"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Wait for checks
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          EXCLUDED_CHECKS=("Dependabot auto-merge" "API tests")
+          while true; do
+            echo "Checking workflow status..."
+            checks=$(gh api \
+              repos/$REPO/commits/$SHA/check-runs \
+              --jq '.check_runs[] | "\(.name)|\(.conclusion)|\(.status)"')
+            failed=0
+            pending=0
+            while IFS="|" read -r name conclusion status; do
+              skip=false
+              for excluded in "${EXCLUDED_CHECKS[@]}"; do
+                if [[ "$name" == "$excluded" ]]; then
+                  echo "Skipping excluded check: $name"
+                  skip=true
+                  break
+                fi
+              done
+              if [[ "$skip" == true ]]; then
+                continue
+              fi
+              echo "Check: $name Status: $status Conclusion: $conclusion"
+              if [[ "$status" != "completed" ]]; then
+                pending=1
+              elif [[ "$conclusion" != "success" ]]; then
+                failed=1
+              fi
+            done <<< "$checks"
+            if [[ $failed -eq 1 ]]; then
+              echo "A required check failed."
+              exit 1
+            fi
+            if [[ $pending -eq 0 ]]; then
+              echo "All required checks passed."
+              break
+            fi
+            sleep 15
+          done
+      - name: Merge Dependabot PRs that pass all checks
+        run: gh pr merge --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
