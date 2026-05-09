@@ -27,7 +27,12 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         rust: [ nightly, beta, stable ]
     steps:
-      - uses: actions/checkout@v6
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install Rust toolchain
         run: |
           rustup toolchain install ${{ matrix.rust }} --component rustfmt
@@ -47,9 +52,14 @@ jobs:
       RUSTFLAGS: "-Cinstrument-coverage -Clink-dead-code -Coverflow-checks=off"
       LLVM_PROFILE_FILE: "coverage/%p-%m.profraw"
     steps:
-      - uses: actions/checkout@v6
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Set up Rust with coverage tools
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
         with:
           toolchain: stable
           override: true
@@ -78,7 +88,7 @@ jobs:
             --ignore "target/**" \
             --output-path coverage/lcov.info
       - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2.3.6
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         with:
@@ -89,7 +99,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: dtolnay/install@cargo-docs-rs
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: dtolnay/rust-toolchain@5b842231ba77f5c045dba54ac5560fed2db780e2 # nightly
+      - uses: dtolnay/install@982daea0f5d846abc3c83e01a6a1d73c040047c1 # cargo-docs-rs
       - run: cargo docs-rs
