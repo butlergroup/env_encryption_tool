@@ -4,7 +4,20 @@
 
 
 #### Improvements
-- bump tokio from 1.52.1 to 1.52.2
+
+
+#### Fixes
+
+
+---
+
+## Version 0.9.24 (05-09-2026)
+
+#### New Features
+
+
+#### Improvements
+- bump tokio from 1.52.1 to 1.52.3
 
 #### Fixes
 
