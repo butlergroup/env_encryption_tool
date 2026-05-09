@@ -34,7 +34,7 @@ jobs:
           REPO: ${{ github.repository }}
           SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          EXCLUDED_CHECKS=("Dependabot auto-merge" "API tests")
+          EXCLUDED_CHECKS=("Dependabot auto-merge")
           while true; do
             echo "Checking workflow status..."
             checks=$(gh api \
