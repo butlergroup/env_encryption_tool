@@ -45,13 +45,14 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Timeout after 30 minutes
-          timeout_seconds=1800
+          # Timeout after 10 minutes
+          timeout_seconds=600
           start_time=$(date +%s)
 
           # Checks to ignore
           EXCLUDED_PATTERNS=(
             "Dependabot auto-merge"
+            "Validate and merge Dependabot PR"
           )
 
           echo "Waiting for checks on commit: $SHA"
