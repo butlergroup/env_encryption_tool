@@ -1,12 +1,15 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 name: Dependabot auto-merge
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
   workflow_dispatch:
 
 permissions:
@@ -16,63 +19,186 @@ permissions:
 
 jobs:
   dependabot:
+    name: Validate and merge Dependabot PR
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
+
+    if: >
+      github.event.pull_request.user.login == 'dependabot[bot]'
+
     steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+      - name: Harden the runner
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450
         with:
           egress-policy: audit
-      - name: Dependabot metadata
+
+      - name: Fetch Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Wait for checks
+
+      - name: Wait for all checks to complete successfully
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          EXCLUDED_CHECKS=("Dependabot auto-merge")
+          set -euo pipefail
+
+          # Timeout after 30 minutes
+          timeout_seconds=1800
+          start_time=$(date +%s)
+
+          # Checks to ignore
+          EXCLUDED_PATTERNS=(
+            "Dependabot auto-merge"
+          )
+
+          echo "Waiting for checks on commit: $SHA"
+
           while true; do
-            echo "Checking workflow status..."
+            now=$(date +%s)
+            elapsed=$((now - start_time))
+
+            if [[ $elapsed -ge $timeout_seconds ]]; then
+              echo "Timed out waiting for checks."
+              exit 1
+            fi
+
+            echo "Fetching check runs..."
+
             checks=$(gh api \
-              repos/$REPO/commits/$SHA/check-runs \
-              --jq '.check_runs[] | "\(.name)|\(.conclusion)|\(.status)"')
-            failed=0
+              "repos/$REPO/commits/$SHA/check-runs" \
+              --jq '.check_runs[] | [
+                .name,
+                .status,
+                .conclusion
+              ] | @tsv')
+
+            if [[ -z "$checks" ]]; then
+              echo "No checks registered yet..."
+              sleep 15
+              continue
+            fi
+
             pending=0
-            while IFS="|" read -r name conclusion status; do
+            failed=0
+            actionable_checks=0
+
+            while IFS=$'\t' read -r name status conclusion; do
+
               skip=false
-              for excluded in "${EXCLUDED_CHECKS[@]}"; do
-                if [[ "$name" == "$excluded" ]]; then
+
+              for pattern in "${EXCLUDED_PATTERNS[@]}"; do
+                if [[ "$name" == *"$pattern"* ]]; then
                   echo "Skipping excluded check: $name"
                   skip=true
                   break
                 fi
               done
+
               if [[ "$skip" == true ]]; then
                 continue
               fi
-              echo "Check: $name Status: $status Conclusion: $conclusion"
+
+              echo "Check: $name"
+              echo "  Status: $status"
+              echo "  Conclusion: $conclusion"
+
+              actionable_checks=$((actionable_checks + 1))
+
+              #
+              # Pending states
+              #
               if [[ "$status" != "completed" ]]; then
                 pending=1
-              elif [[ "$conclusion" != "success" ]]; then
-                failed=1
+                continue
               fi
+
+              #
+              # Failed states
+              #
+              case "$conclusion" in
+                success|neutral|skipped)
+                  ;;
+                *)
+                  echo "Check failed: $name"
+                  failed=1
+                  ;;
+              esac
+
             done <<< "$checks"
+
+            #
+            # Prevent accidental merges if no real checks exist
+            #
+            if [[ $actionable_checks -eq 0 ]]; then
+              echo "No actionable checks found yet..."
+              pending=1
+            fi
+
+            #
+            # Fail immediately if any check failed
+            #
             if [[ $failed -eq 1 ]]; then
-              echo "A required check failed."
+              echo "One or more checks failed."
               exit 1
             fi
+
+            #
+            # Success condition
+            #
             if [[ $pending -eq 0 ]]; then
-              echo "All required checks passed."
+              echo "All checks completed successfully."
+
+              #
+              # Extra stabilization delay to avoid race conditions
+              #
+              echo "Waiting 20 seconds for GitHub state stabilization..."
+              sleep 20
+
               break
             fi
+
+            echo "Checks still pending..."
             sleep 15
           done
-      - name: Merge Dependabot PRs that pass all checks
-        run: gh pr merge --merge "$PR_URL"
+
+      - name: Verify PR mergeability
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -euo pipefail
+
+          for i in {1..20}; do
+            state=$(gh pr view "$PR_URL" \
+              --json mergeable \
+              --jq '.mergeable')
+
+            echo "Mergeable state: $state"
+
+            if [[ "$state" == "MERGEABLE" ]]; then
+              exit 0
+            fi
+
+            if [[ "$state" == "CONFLICTING" ]]; then
+              echo "PR has merge conflicts."
+              exit 1
+            fi
+
+            sleep 10
+          done
+
+          echo "PR never became mergeable."
+          exit 1
+
+      - name: Merge Dependabot PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr merge \
+            --merge \
+            --delete-branch \
+            "$PR_URL"
