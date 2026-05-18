@@ -3,24 +3,21 @@ name: Dependabot auto-merge
 on:
   pull_request:
     branches:
-      - '*'
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-
-  workflow_dispatch:
+      - "*"
 
 permissions:
-  contents: write
-  pull-requests: write
-  checks: read
+  contents: read
 
 jobs:
   dependabot:
     name: Validate and merge Dependabot PR
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      actions: write
 
     if: >
       github.event.pull_request.user.login == 'dependabot[bot]'
@@ -45,14 +42,16 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Timeout after 10 minutes
-          timeout_seconds=600
+          # Timeout after 30 minutes
+          timeout_seconds=1800
           start_time=$(date +%s)
 
           # Checks to ignore
           EXCLUDED_PATTERNS=(
             "Dependabot auto-merge"
             "Validate and merge Dependabot PR"
+            "Greetings"
+            "Mark stale issues and pull requests"
           )
 
           echo "Waiting for checks on commit: $SHA"
@@ -196,7 +195,7 @@ jobs:
 
       - name: Merge Dependabot PR
         env:
-          GH_TOKEN: ${{ secrets.AUTOMERGE_TOKEN_ORG }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
           gh pr merge \

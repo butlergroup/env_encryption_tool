@@ -8,7 +8,7 @@ permissions:
   contents: read
 on:
   schedule:
-    - cron: "19 20 * * 0"
+    - cron: "37 6 * * *"
 
 jobs:
   stale:
@@ -27,13 +27,11 @@ jobs:
       - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-stale: "30"
-          days-before-close: "7"
-          stale-issue-message: "This issue has had no activity for 30 days. Labelling as stale."
+          stale-issue-message: "This issue has had no activity for 60 days. Labeling as stale."
           stale-issue-label: "no-issue-activity"
-          close-issue-message: "This issue has had no activity for 37 days. Closing."
+          close-issue-message: "This issue has had no activity for 67 days. Closing."
 
-          stale-pr-message: "This pull request has had no activity for 30 days. Labelling
+          stale-pr-message: "This pull request has had no activity for 60 days. Labeling
             as stale."
           stale-pr-label: "no-pr-activity"
-          close-pr-message: "This pull request has had no activity for 37 days. Closing."
+          close-pr-message: "This pull request has had no activity for 67 days. Closing."
