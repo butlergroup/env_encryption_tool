@@ -18,9 +18,12 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    if: >
-      github.event_name == 'issue' ||
-      github.event.pull_request.user.login != 'dependabot[bot]'
+    if: |
+      github.event_name == 'issues' ||
+      (
+        github.event.pull_request.user.login != 'dependabot[bot]' &&
+        github.event.pull_request.user.login != 'renovate[bot]'
+      )
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
@@ -29,7 +32,9 @@ jobs:
 
       - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
         with:
-          issue_message: "Hello and thank you for opening an issue. We'll look into it as
+          issue_message:
+            "Hello and thank you for opening an issue. We'll look into it as
             soon as possible."
-          pr_message: "Hello and thank you for opening a pull request. We'll review it and
+          pr_message:
+            "Hello and thank you for opening a pull request. We'll review it and
             make a decision as soon as possible."
