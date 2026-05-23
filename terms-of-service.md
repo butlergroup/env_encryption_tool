@@ -1,8 +1,8 @@
 ## Overview
 
-This application is operated by The Butler Group LLC. Throughout these Terms and Conditions, the terms “we” “us” and “our” refer to The Butler Group LLC. The Butler Group LLC offers this application including all information, tools, and services available to you, the user, conditioned upon your acceptance of all terms, conditions, policies, and notices stated here.
+This application is provded by The Butler Group LLC. Throughout these Terms and Conditions, the terms “we” “us” and “our” refer to The Butler Group LLC. The Butler Group LLC offers this application including all information, tools, and services available to you, the user, conditioned upon your acceptance of all terms, conditions, policies, and notices stated here.
 
-Please read these Terms of Service carefully before accessing or using the env_encryption_tool application. By using the env_encryption_tool application, you engage in our “Service” and agree to be bound by the following terms and conditions (“Terms of Service”, “Terms”), including those additional terms and conditions and policies referenced herein and/or available by hyperlink. These Terms of Service apply to all users, including without limitation users who are browsers, vendors, customers, merchants, and/ or contributors of content.  If you do not agree to all the terms and conditions of this agreement, then you may not access or use the application. 
+Please read these Terms of Service carefully before accessing or using the env_encryption_tool application. By using the env_encryption_tool application, you engage in our “Service” and agree to be bound by the following terms and conditions (“Terms of Service”, “Terms”), including those additional terms and conditions and policies referenced herein and/or available by hyperlink. These Terms of Service apply to all users, including without limitation users who are browsers, vendors, customers, merchants, and/ or contributors of content. If you do not agree to all the terms and conditions of this agreement, then you may not access or use the application.
 
 Any new features or tools which are added to the current version of the application shall also be subject to the Terms of Service. You can review the most current version of the Terms of Service at any time on this page. We reserve the right to update, change or replace any part of these Terms of Service by updating this posting. It is your responsibility to check this page periodically for changes. Your continued use of or access to the application following the posting of any changes constitutes acceptance of those changes.
 
@@ -50,13 +50,13 @@ You agree that your comments will not violate any right of any third-party inclu
 
 ## Section 7 – Personal Information
 
-The handling of your personal information is governed by our Privacy Policy. You may view our Privacy Policy at any time by browsing to the posting so named. 
+The handling of your personal information is governed by our Privacy Policy. You may view our Privacy Policy at any time by browsing to the posting so named.
 
 ## Section 8 – Errors, Inaccuracies, and Omissions
 
 Occasionally there may be information related to the Service that contains typographical errors, inaccuracies or omissions. We reserve the right to correct any errors, inaccuracies or omissions, and to change or update information if any information in the Service or on any related website is inaccurate at any time without prior notice.
 
-We undertake no obligation to update, amend, or clarify information in the Service or on any related website, except as required by law. 
+We undertake no obligation to update, amend, or clarify information in the Service or on any related website, except as required by law.
 
 ## Section 9 – Prohibited Uses
 
@@ -80,7 +80,7 @@ You agree to indemnify, defend, and hold harmless The Butler Group LLC and our s
 
 ## Section 12 – Severability
 
-In the event that any provision of these Terms of Service is determined to be unlawful, void or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and such determination shall not affect the validity and enforceability of any other  provisions contained herein.
+In the event that any provision of these Terms of Service is determined to be unlawful, void or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and such determination shall not affect the validity and enforceability of any other provisions contained herein.
 
 ## Section 13 – Termination
 
@@ -110,4 +110,4 @@ We reserve the right, at our sole discretion, to update, change or replace any p
 
 ## Section 17 – Contact Information
 
-Questions about the Terms of Service should be sent to us at welcome@butlergroup.net
+Questions about the Terms of Service should be sent to us at legal@butlergroup.net
