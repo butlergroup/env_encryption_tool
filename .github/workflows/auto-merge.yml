@@ -229,12 +229,89 @@ jobs:
           echo "PR never became mergeable."
           exit 1
 
-      - name: Generate GitHub App token
+      - name: Verify GitHub App secret availability
+        shell: bash
+        env:
+          APP_ID: ${{ vars.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+
+          test -n "$APP_ID" || { echo "::error::APP_ID is empty"; exit 1; }
+          test -n "$APP_PRIVATE_KEY" || { echo "::error::APP_PRIVATE_KEY is empty/unavailable in this workflow context"; exit 1; }
+
+          if ! grep -q "BEGIN .*PRIVATE KEY" <<< "$APP_PRIVATE_KEY"; then
+            echo "::error::APP_PRIVATE_KEY does not look like a PEM private key"
+            exit 1
+          fi
+
+          echo "GitHub App inputs are present"
+
+      - name: Generate GitHub App installation token manually
         id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ vars.APP_CLIENT_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+        shell: bash
+        env:
+          APP_ID: ${{ vars.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          private_key_file="$(mktemp)"
+          trap 'rm -f "$private_key_file"' EXIT
+          printf '%s\n' "$APP_PRIVATE_KEY" > "$private_key_file"
+
+          now="$(date +%s)"
+          iat="$((now - 60))"
+          exp="$((now + 540))"
+
+          b64url() {
+            openssl base64 -A | tr '+/' '-_' | tr -d '='
+          }
+
+          header="$(printf '{"alg":"RS256","typ":"JWT"}' | b64url)"
+          payload="$(printf '{"iat":%s,"exp":%s,"iss":"%s"}' "$iat" "$exp" "$APP_ID" | b64url)"
+          unsigned_token="${header}.${payload}"
+
+          signature="$(
+            printf '%s' "$unsigned_token" |
+              openssl dgst -sha256 -sign "$private_key_file" -binary |
+              b64url
+          )"
+
+          jwt="${unsigned_token}.${signature}"
+
+          installation_id="$(
+            curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $jwt" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/$REPO/installation" |
+              jq -r '.id'
+          )"
+
+          test -n "$installation_id" && test "$installation_id" != "null" || {
+            echo "::error::Could not determine GitHub App installation ID for $REPO"
+            exit 1
+          }
+
+          token="$(
+            curl -fsSL \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $jwt" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/app/installations/$installation_id/access_tokens" |
+              jq -r '.token'
+          )"
+
+          test -n "$token" && test "$token" != "null" || {
+            echo "::error::GitHub App installation token was empty"
+            exit 1
+          }
+
+          echo "::add-mask::$token"
+          echo "token=$token" >> "$GITHUB_OUTPUT"
 
       - name: Merge bot PR
         env:
