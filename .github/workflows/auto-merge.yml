@@ -50,26 +50,26 @@ jobs:
         run: |
           set -euo pipefail
 
-          pr_json=$(gh api "repos/$REPO/pulls/$PR_NUMBER")
-
-          echo "bot-login=$BOT_LOGIN" >> "$GITHUB_OUTPUT"
-          echo "pr-title=$PR_TITLE" >> "$GITHUB_OUTPUT"
-          echo "pr-branch=$PR_BRANCH" >> "$GITHUB_OUTPUT"
-
           labels=$(gh api "repos/$REPO/issues/$PR_NUMBER/labels" \
             --jq '[.[].name] | join(",")')
 
-          echo "labels=$labels" >> "$GITHUB_OUTPUT"
-
           if [[ "$BOT_LOGIN" == "dependabot[bot]" ]]; then
-            echo "bot-type=dependabot" >> "$GITHUB_OUTPUT"
+            bot_type="dependabot"
           elif [[ "$BOT_LOGIN" == "github-actions[bot]" ]]; then
-            echo "bot-type=github-actions" >> "$GITHUB_OUTPUT"
+            bot_type="github-actions"
           elif [[ "$BOT_LOGIN" == "butlergroup-automerge-token-issuer[bot]" ]]; then
-            echo "bot-type=github-app" >> "$GITHUB_OUTPUT"
+            bot_type="github-app"
           else
-            echo "bot-type=unknown" >> "$GITHUB_OUTPUT"
+            bot_type="unknown"
           fi
+
+          {
+            echo "bot-login=$BOT_LOGIN"
+            echo "pr-title=$PR_TITLE"
+            echo "pr-branch=$PR_BRANCH"
+            echo "labels=$labels"
+            echo "bot-type=$bot_type"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Wait for all checks to complete successfully
         env:
@@ -207,7 +207,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          for i in {1..20}; do
+          for _ in {1..20}; do
             state=$(gh pr view "$PR_URL" \
               --json mergeable \
               --jq '.mergeable')
@@ -233,7 +233,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: ${{ secrets.APP_CLIENT_ID }}
+          client-id: ${{ vars.APP_CLIENT_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Merge bot PR
