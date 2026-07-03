@@ -19,9 +19,9 @@ name = "env_encryption_tool"
 path = "src/main.rs" 
 
 [dependencies]
-rand = "0.10.1"                                                    # Random number generators and other randomness functionality. 
+rand = "0.10.2"                                                    # Random number generators and other randomness functionality. 
 argon2 = "0.5.3"                                                   # Key derivation with resistance to GPU cracking and side-channel attacks
-log = "0.4.32"                                                     # A lightweight logging facade for Rust 
+log = "0.4.33"                                                     # A lightweight logging facade for Rust 
 pqcrypto = "0.18.1"                                                # Post-Quantum cryptographic primitives
 pqcrypto-traits = "0.3.5"                                          # Shared traits for post-quantum cryptographic primitives
 env = "1.0.1"                                                      # Provides a safe interface for std::env::{set_var, remove_var}.
@@ -30,4 +30,4 @@ tokio = { version = "1.52.3", features = ["full"] }                # Fast, async
 chacha20poly1305 = "0.10.1"                                        # Pure Rust implementation of the ChaCha20Poly1305 Authenticated Encryption with Additional Data Cipher (RFC 8439) with optional architecture-specific hardware acceleration
 hkdf = "0.13.0"                                                    # HMAC-based Extract-and-Expand Key Derivation Function (HKDF)
 sha2 = "0.11.0"                                                    # Pure Rust implementation of the SHA-2 hash function family including SHA-224, SHA-256, SHA-384, and SHA-512. 
-zeroize = "1.8.2"                                                  # Securely clear secrets from memory with a simple trait built on stable Rust primitives which guarantee memory is zeroed using an operation will not be 'optimized away' by the compiler.
+zeroize = "1.9.0"                                                  # Securely clear secrets from memory with a simple trait built on stable Rust primitives which guarantee memory is zeroed using an operation will not be 'optimized away' by the compiler.
