@@ -23,6 +23,7 @@ jobs:
     if: |
       github.event.pull_request.user.login == 'dependabot[bot]' ||
       github.event.pull_request.user.login == 'butlergroup-automerge-token-issuer[bot]' ||
+      github.event.pull_request.user.login == 'butlergrp-automerge-token-issuer[bot]' ||
       github.event.pull_request.user.login == 'github-actions[bot]'
 
     steps:
@@ -58,6 +59,8 @@ jobs:
           elif [[ "$BOT_LOGIN" == "github-actions[bot]" ]]; then
             bot_type="github-actions"
           elif [[ "$BOT_LOGIN" == "butlergroup-automerge-token-issuer[bot]" ]]; then
+            bot_type="github-app"
+          elif [[ "$BOT_LOGIN" == "butlergrp-automerge-token-issuer[bot]" ]]; then
             bot_type="github-app"
           else
             bot_type="unknown"
