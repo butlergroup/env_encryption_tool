@@ -20,7 +20,7 @@ path = "src/main.rs"
 
 [dependencies]
 rand = "0.10.2"                                                    # Random number generators and other randomness functionality. 
-argon2 = "0.5.3"                                                   # Key derivation with resistance to GPU cracking and side-channel attacks
+argon2 = "0.6.0"                                                   # Key derivation with resistance to GPU cracking and side-channel attacks
 log = "0.4.33"                                                     # A lightweight logging facade for Rust 
 pqcrypto = "0.18.1"                                                # Post-Quantum cryptographic primitives
 pqcrypto-traits = "0.3.5"                                          # Shared traits for post-quantum cryptographic primitives
